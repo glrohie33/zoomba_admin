@@ -1,0 +1,285 @@
+
+
+
+.login-container,.registration-container,.viewModalCard {
+    height: 100vh;
+}
+
+
+
+.main-container{
+    max-width: 1200px;
+    margin: 65px auto 0px;
+    padding: 50px 0;
+}
+
+.login-card{
+    text-align:center;
+    align-self:center;
+    width:100%;
+    padding: 30px 20px;
+}
+
+.MuiTextField-root{
+    margin-bottom: 20px !important;
+    width: 100%;
+}
+
+.registration-form-card,.viewModalCard {
+    align-self: center;
+    padding: 40px 30px ;
+    min-width: 400px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+p{
+    margin: 5px 0 !important;
+}
+.viewModalCard p{
+    font-size: 16px;
+}
+
+.capitalize{
+    text-transform: capitalize;
+}
+
+.flex{
+    display: flex;
+}
+
+.flex-center{
+    justify-content: center;
+    align-items: center;
+}
+
+.clickable{
+    cursor: pointer;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.text-right{
+    text-align: right;
+}
+
+.margin-top-10{
+    margin-top: 10px !important;
+}
+
+.margin-top-bottom{
+    margin: 10px 0 !important;
+}
+
+.platform-options{
+    padding: 10px;
+    height: 50px;
+    cursor: pointer;
+}
+
+.platform-options h3{
+    align-self: center;
+}
+
+.product-platform-list input[type='radio']:checked + label .platform-options{
+  border: 1px solid #444;
+}
+
+.add-product-stepper,.product-form-view,.product-form-navigator{
+    margin: 20px 0 !important;
+}
+
+.category-list-item label{
+    width: 100%;
+    display:block;
+    cursor: pointer;
+}
+
+.category-list-item{
+    padding: 5px;
+    font-size: 18px;
+    text-transform: capitalize;
+    font-weight: 400;
+    margin: 5px 0;
+    cursor: pointer;
+}
+
+.category-list-cover{
+    width:25%;
+    flex-shrink: 0;
+    margin-right: 5px;
+}
+
+.category-list-container{
+    display: flex;
+    overflow-x: auto;
+}
+
+.product-images-label{
+    display: block;
+    width: 100%;
+    cursor: pointer;
+}
+
+.price-container{
+    margin:10px 0;
+    padding: 10px 0;
+}
+
+.price-items{
+    align-self: center;
+    margin: 0 !important;
+}
+
+.side-panel{
+    height: calc(100vh - 105px);
+    position: fixed;
+    bottom: 20px;
+    left: 6px;
+    width: 400px;
+}
+
+.side-panel .card-cover{
+    height: 100%;
+    position: relative;
+}
+
+.side-panel .card-footer{
+    position: absolute;
+    bottom: 5px;
+}
+
+.side-panel .content-area{
+    overflow: auto;
+    height: calc(100% - 107px );
+    padding-bottom: 20px;
+}
+
+.file-selector-tab{
+    border-bottom: 1px solid #eee;
+}
+
+.modal-body{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    height: 100vh;
+    width: 100%;
+}
+
+.image-selector{
+    width: 80%;
+    height: 90%;
+}
+
+.image-selector img{
+    height: 250px;
+    width: 100%;
+    object-fit: contain;
+}
+
+.image-selector .image-container{
+    padding:10px 10px 30px 10px;
+
+}
+
+
+
+
+
+.file-upload-cover{
+    display: flex;
+    flex-direction: column !important;
+    justify-content: center;
+    align-content: center;
+}
+.upload-button-cover, .upload-label-cover{
+    width:100%;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 15px auto;
+
+}
+
+.upload-label{
+    width:300px;
+    padding: 30px 0;
+    cursor: pointer;
+    text-align: center;
+}
+
+.image-selector-container{
+    height: 100%;
+    position: relative;
+
+}
+
+.image-selector-action-container{
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    bottom:0;
+    padding: 10px 10px;
+    background: #fff;
+}
+
+.image-selector .item-container{
+    height: calc(100% - 122px);
+    overflow-y:auto;
+    overflow-x: hidden;
+}
+
+.image-preview-item{
+    text-align: center;
+}
+.uploads-preview img{
+    height: 150px;
+    text-align: center;
+}
+
+.uploads-preview .paper{
+    padding: 5px;
+}
+
+
+.image-container label{
+    cursor: pointer;
+}
+
+.image-box,.product-box{
+    width:100%;
+}
+
+.image-box img, .product-box img{
+    width:100%;
+}
+
+.no-image-name h1{
+    display: none;
+}
+
+.dashboard-data .data>div{
+    padding: 20px;
+}
+
+.data p{
+    font-size: 16px ;
+}
+
+.data h3{
+    text-align: center;
+    font-size: 20px;
+}
+
+
+
+
+
+
+
+
+

@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useMemo, useState} from 'react';
+import React, {Fragment, useCallback, useEffect, useMemo, useState} from 'react';
 import {Button, Grid} from "@mui/material";
 import {DataGrid, GridActionsCellItem} from "@mui/x-data-grid";
 import {PRODUCTURL} from "../../utils/texthelper";
@@ -62,7 +62,7 @@ function Product(props) {
     const [rowCount,setRowCount] = useState(1);
     const [data,setData] = useState([]);
 
-    const getProducts = ()=>{
+    const getProducts = useCallback(()=>{
         if(page){
             get(`${PRODUCTURL}?currentPage=${page}`).then(resp=>{
                 const {status,products:{products},total} = resp.data;
@@ -72,8 +72,8 @@ function Product(props) {
                 }
             })
         }
+    },[]);
 
-    }
     useEffect(()=>{
         getProducts()
     },[page,getProducts]);

@@ -76,7 +76,7 @@ function Product(props) {
     }
     useEffect(()=>{
         getProducts()
-    },[page]);
+    },[page,getProducts]);
     return (
             <Fragment >
                 <Grid container>

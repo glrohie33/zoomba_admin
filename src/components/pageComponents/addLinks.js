@@ -67,6 +67,9 @@ function AddLinks({formSchema,setData}) {
                 <TextField name={'cols'} onChange={setData} value={formSchema.cols} size={'md'} label={'number of cols'}/>
             </Grid>
             <Grid item sm={12} >
+                <TextField name={'colsMobile'} onChange={setData} value={formSchema.colsMobile || 2 } size={'md'} label={'number of cols'}/>
+            </Grid>
+            <Grid item sm={12} >
                 {
                     ('hideImageName' in formSchema) &&
                     <FormControlLabel control={<Switch checked={Boolean(formSchema.hideImageName)} name={'hideImageName'} onChange={handleChecked} />} label="Hide Image Name" />

@@ -1,4 +1,4 @@
-import React, {Fragment, useCallback, useState} from 'react';
+import React, {Fragment, useCallback, useEffect, useState} from 'react';
 import {Button, Grid, Step, StepLabel, Stepper} from "@mui/material";
 import PlatformList from "../../components/platformList";
 import Displayalerts from "../../components/displayalerts";
@@ -207,6 +207,10 @@ function AddProduct(props) {
     }
 
 
+    useEffect(()=>{
+        sessionStorage.setItem('loadedCategories',JSON.stringify([]))
+        sessionStorage.setItem('platform','');
+    },[])
     return (
         <Fragment>
             <Displayalerts name={AUTHALERTNAME}>

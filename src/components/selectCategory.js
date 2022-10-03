@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState, Fragment, memo} from 'react';
+import React, {useCallback, useEffect, useState, Fragment, memo, useRef} from 'react';
 import {get} from "../actions/auth";
 import {CATEGORYLISTURL} from "../utils/texthelper";
 import {Card, Grid, Paper} from "@mui/material";
@@ -8,12 +8,11 @@ import {buildCustomEvent} from "../utils/utils";
 
 function SelectCategory({ formFields,setFormData}) {
 
-    const [data,setData] = useState([]);
+    const [data,setData] = useState([ ]);
     const [currentCategory,setCurrentCategory] = useState("");
-    const [selectedCategories,setSelectedCategories] = useState([]);
-
+    const [selectedCategories,setSelectedCategories] = useState(formFields.categories);
+    const platform = useRef("");
     const getCategories =useCallback(()=>{
-        console.log(formFields.platform)
         get(`${CATEGORYLISTURL}?parent=${currentCategory}&children=true`,{
             headers: {platform:formFields.platform}
         }).then((resp)=>{
@@ -22,6 +21,7 @@ function SelectCategory({ formFields,setFormData}) {
                 if(categories.length > 0){
                     const newData = [...data,categories];
                     setData(newData);
+                    sessionStorage.setItem('loadedCategories',JSON.stringify(newData))
                 }
             }
         }).catch(e=>{
@@ -30,7 +30,6 @@ function SelectCategory({ formFields,setFormData}) {
     },[currentCategory,data]);
 
     const categorySelected = (event,index)=>{
-
         const value = event.target.value;
         if(!isSelected(value)){
             const newArray = [...selectedCategories];
@@ -49,7 +48,14 @@ function SelectCategory({ formFields,setFormData}) {
     }
 
     useEffect(()=>{
-        getCategories()
+        const previousPlatform = sessionStorage.getItem('productPlatform');
+        const initialData = JSON.parse(sessionStorage.getItem('loadedCategories')) || [];
+        if (previousPlatform != formFields.platform){
+            sessionStorage.setItem('productPlatform',formFields.platform)
+            getCategories();
+        }else{
+            setData(initialData);
+        }
     },[currentCategory])
 
     useEffect(()=>{
@@ -58,6 +64,7 @@ function SelectCategory({ formFields,setFormData}) {
         if(element&&currentElement){
             element.scrollLeft = (currentElement.offsetLeft + currentElement.clientWidth);
         }
+
     },[data])
 
     const isSelected = (id)=>(selectedCategories.includes(id));
@@ -66,6 +73,7 @@ function SelectCategory({ formFields,setFormData}) {
             <Grid container>
                 <Grid item sm={12}>
                     <div className={'category-list-container'}>
+                        {platform.current}
                         {
                             data.map((v,index)=>(
                                 <Card key={index} className={`category-list-cover category-list-cover${index}`}>

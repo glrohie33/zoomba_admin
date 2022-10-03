@@ -4,7 +4,7 @@ import {get, post} from '../actions/auth';
 import {MEDIAURL} from "../utils/texthelper";
 import {convertToForm, getInputFiles} from "../utils/utils";
 import axios from "axios";
-function ImageSelector({inFileType='images',currentFiles=[],closeModal,setSelection}) {
+function ImageSelector({inFileType='image',currentFiles=[],closeModal,setSelection, multiple=false}) {
     const abortController = new AbortController();
     const signal = abortController.signal;
     const [files,setLoadedFiles] = useState(currentFiles);
@@ -36,7 +36,6 @@ function ImageSelector({inFileType='images',currentFiles=[],closeModal,setSelect
             )
     }
     ,[currentPage]);
-
 
     function uploadFiles(){
         const requests = uploadedFiles.map(uploadedFile=>{
@@ -86,11 +85,16 @@ function ImageSelector({inFileType='images',currentFiles=[],closeModal,setSelect
 
     const  selectFile=(inFile)=>{
         const file = selectedFiles.find(file=>file.id===inFile.id)
+
         let newFiles = [...selectedFiles];
         if(file){
             newFiles = selectedFiles.filter(file=>file.id!==inFile.id);
         }else{
-            newFiles.push(inFile)
+            if (multiple){
+                newFiles.push(inFile);
+            }else{
+                newFiles = [inFile];
+            }
         }
 
         setSelectedFiles(newFiles)
@@ -153,7 +157,6 @@ function ImageSelector({inFileType='images',currentFiles=[],closeModal,setSelect
                                                             </Paper>
                                                         </Grid>
                                                     ))
-
                                                 }
                                             </Grid>
 
@@ -166,7 +169,8 @@ function ImageSelector({inFileType='images',currentFiles=[],closeModal,setSelect
 
                            {
                                files.map((file,index)=>(
-                                   <Grid item sm={3} key={index}>
+                                   (file) &&
+                                   <Grid item sm={3} key={file.id}>
                                        <label>
                                            <Paper elevation={isSelected(file.id)?5:1} onClick={()=>{selectFile(file)}} >
                                                <img  src={file.url} alt={file.name}/>

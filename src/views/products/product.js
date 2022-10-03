@@ -72,7 +72,7 @@ function Product(props) {
                 }
             })
         }
-    },[]);
+    },[page]);
 
     useEffect(()=>{
         getProducts()

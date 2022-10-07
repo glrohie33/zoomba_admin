@@ -27,7 +27,7 @@ function SelectCategory({ formFields,setFormData}) {
         }).catch(e=>{
 
         });
-    },[currentCategory,data]);
+    },[currentCategory,data,formFields]);
 
     const categorySelected = (event,index)=>{
         const value = event.target.value;
@@ -50,13 +50,13 @@ function SelectCategory({ formFields,setFormData}) {
     useEffect(()=>{
         const previousPlatform = sessionStorage.getItem('productPlatform');
         const initialData = JSON.parse(sessionStorage.getItem('loadedCategories')) || [];
-        if (previousPlatform != formFields.platform){
+        if (previousPlatform !== formFields.platform){
             sessionStorage.setItem('productPlatform',formFields.platform)
             getCategories();
         }else{
             setData(initialData);
         }
-    },[currentCategory])
+    },[currentCategory,formFields.platform,getCategories])
 
     useEffect(()=>{
         const element = document.querySelector(`.category-list-container`);

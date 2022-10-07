@@ -44,7 +44,7 @@ function AddProduct(props) {
     const setFormData = useCallback(({target})=>{
         const {name,value} = target;
         setFormFields(v=>({...v,[name]:value}));
-    },[formFields]);
+    },[]);
     const steps = [
         {
             label: 'Select Platform',
@@ -80,7 +80,7 @@ function AddProduct(props) {
             component:<ProductImages formFields={formFields} setFormData={setFormData}/>,
             validations:{
                 images:(field,resp)=>{
-                    if(field.length == 0){
+                    if(field.length === 0){
                     resp.status = false;
                    resp.errors.push('product images are required');
                     }
@@ -99,13 +99,13 @@ function AddProduct(props) {
                 const {productPurchasePrice,productVariations} = formFields;
                 if(productVariations.length > 0){
                         productVariations.forEach((variation, index)=>{
-                            if(variation.productPurchasePrice == 0){
+                            if(variation.productPurchasePrice === 0){
                              resp.status = false;
                              resp.errors.push(`please enter purchase price for variation number ${index+1}  for all variations or delete them`);
                             }
                         })
                 }else{
-                    if(productPurchasePrice == 0){
+                    if(productPurchasePrice === 0){
                         resp.status = false;
                         resp.errors.push('Please enter purchase price');
                     }

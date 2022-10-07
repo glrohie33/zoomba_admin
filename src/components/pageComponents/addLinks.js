@@ -1,18 +1,15 @@
-import React, {Fragment, useCallback, useEffect, useMemo, useState} from 'react';
-import {Button, Checkbox, FormControlLabel, Grid, Modal, Switch, TextField} from "@mui/material";
+import React, {Fragment, useCallback,  useMemo, useState} from 'react';
+import {Button, FormControlLabel, Grid, Modal, Switch, TextField} from "@mui/material";
 import ImageSelector from "../imageSelector";
 import {buildCustomEvent} from "../../utils/utils";
 import {PRODUCTURL} from "../../utils/texthelper";
-import {get, post} from "../../actions/auth";
+import {get} from "../../actions/auth";
 
 
 
 function AddLinks({formSchema,setData}) {
     const [openModal,setModalStatus] = useState(false);
     const [currentView,setCurrentView] = useState('');
-    const [formFields,setFormFields] = useState({});
-    const [selectedImages,setSelectedImages] = useState([]);
-    const [selectedProducts,setSelectedProducts] = useState([]);
     const handleChecked = (event)=>{
         event.target.value = Boolean(event.target.checked);
         setData(buildCustomEvent(event.target.name,event.target.checked));
@@ -96,7 +93,7 @@ function AddLinks({formSchema,setData}) {
                                         .map((item,index)=>(
                                             <Fragment>
                                                 <Grid item sm={4} style={{textAlign:'center'}} key={item.id}>
-                                                    <img src={item.url} style={{width:'100%',height:'100px',objectFit:"contain"}}/>
+                                                    <img src={item.url} alt={item.title} style={{width:'100%',height:'100px',objectFit:"contain"}}/>
                                                 </Grid>
                                             </Fragment>
                                         ))

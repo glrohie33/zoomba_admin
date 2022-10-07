@@ -1,9 +1,9 @@
 import React, {useState, useEffect, memo, useMemo} from 'react';
 import {DataGrid, GridActionsCellItem} from "@mui/x-data-grid";
-import {Delete, Edit, RemoveRedEye} from "@mui/icons-material";
+import {Delete, RemoveRedEye} from "@mui/icons-material";
 import {Grid} from "@mui/material";
 import {get} from "../actions/auth";
-import {CATEGORYLISTURL, ORDERLISTURL} from "../utils/texthelper";
+import {ORDERLISTURL} from "../utils/texthelper";
 
 function OrdersTable({limit = 20 }) {
     const columns = [
@@ -55,9 +55,6 @@ function OrdersTable({limit = 20 }) {
     const totalRows = useMemo(()=>{
         return rowCount;
     },[rowCount]);
-    const currentPage = useMemo(()=>{
-        return page;
-    })
     useEffect(()=>{
             get(`${ORDERLISTURL}?currentPage=${page === 0?1:page+1}&perPage=${limit}`).then((resp)=>{
                 const {status,orders,total}= resp.data;
@@ -69,7 +66,7 @@ function OrdersTable({limit = 20 }) {
 
             });
 
-    },[page]);
+    },[page,limit]);
     return (
         <Grid container>
             <Grid sm={12}>

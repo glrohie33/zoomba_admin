@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {Card, Grid, Paper} from "@mui/material";
+import { Grid, Paper} from "@mui/material";
 
 function ComponentList({selectedComponent,selectComponent}) {
     const components = [

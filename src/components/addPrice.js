@@ -1,5 +1,5 @@
-import React, {useState, Fragment, useEffect} from 'react';
-import {Button, Card, Checkbox, FormControlLabel, Grid, Paper, TextField} from "@mui/material";
+import React, {useState, Fragment} from 'react';
+import {Button, Checkbox, FormControlLabel, Grid, Paper, TextField} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {buildCustomEvent} from "../utils/utils";
 

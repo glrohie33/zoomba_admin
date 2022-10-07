@@ -23,7 +23,7 @@ function ImageSelector({inFileType='image',currentFiles=[],closeModal,setSelecti
                 .then(({status,data})=>{
                 if(data.status){
                     const filteredFiles = data.files.filter(file=>(!currentImagesId.includes(file.id)));
-                    loadEnd.current = (filteredFiles.length == 0);
+                    loadEnd.current = (filteredFiles.length === 0);
                     const newData = [...files,...filteredFiles];
                     const uniqueData = new Set(newData);
                     setLoadedFiles([...uniqueData]);
@@ -35,7 +35,7 @@ function ImageSelector({inFileType='image',currentFiles=[],closeModal,setSelecti
                 }
             )
     }
-    ,[currentPage]);
+    ,[currentPage,currentImagesId, files, inFileType, signal]);
 
     function uploadFiles(){
         const requests = uploadedFiles.map(uploadedFile=>{
@@ -132,7 +132,7 @@ function ImageSelector({inFileType='image',currentFiles=[],closeModal,setSelecti
                        </Tabs>
                    </Grid>
                    <Grid onScroll={handleScroll}  item sm={12} className={'item-container'}>
-                       <Grid style={{display:(currentTab == 0)?'flex':'none'}} className={'image-container'} container>
+                       <Grid style={{display:(currentTab === 0)?'flex':'none'}} className={'image-container'} container>
                                 <Grid item sm={12} className={'file-upload-cover'} >
                                     <label className={'upload-label-cover'}>
                                         <Paper className={'upload-label'}>
@@ -151,7 +151,7 @@ function ImageSelector({inFileType='image',currentFiles=[],closeModal,setSelecti
                                                     uploadedFiles.map((file,index)=>(
                                                         <Grid item sm={4} key={index} className={'image-preview-item'}>
                                                             <Paper elevation={2} className={'paper'}>
-                                                                <img src={file.preview} />
+                                                                <img src={file.preview} alt={file.title} />
                                                                 <TextField size={'small'} label={'image title'} name={'title'} value={file.title} onChange={(event)=>{setUploadFileData(event,index)}}/>
                                                                 <TextField size={'small'} label={'image link'} name={'link'} value={file.link} onChange={(event)=>{setUploadFileData(event,index)}}/>
                                                             </Paper>
@@ -165,7 +165,7 @@ function ImageSelector({inFileType='image',currentFiles=[],closeModal,setSelecti
 
                                 </Grid>
                        </Grid>
-                       <Grid  style={{display:(currentTab == 1)?'flex':'none'}} className={'image-container images'} spacing={1} container>
+                       <Grid  style={{display:(currentTab === 1)?'flex':'none'}} className={'image-container images'} spacing={1} container>
 
                            {
                                files.map((file,index)=>(
@@ -186,12 +186,12 @@ function ImageSelector({inFileType='image',currentFiles=[],closeModal,setSelecti
                    <Grid item sm={12} className={'image-selector-action-container'}>
                        <Button variant={'contained'} onClick={closeModal} >Cancel</Button>
                        {(
-                           (currentTab == 0) &&<Button variant={'contained'} onClick={uploadFiles} className={'upload-button'}>upload</Button>
+                           (currentTab === 0) &&<Button variant={'contained'} onClick={uploadFiles} className={'upload-button'}>upload</Button>
                        )
                        }
 
                        {
-                           (currentTab == 1) &&
+                           (currentTab === 1) &&
                            <Fragment>
                                <Button variant={'outlined'} onClick={()=>{setSelection(selectedFiles);closeModal();}}>Select Items</Button>)
                            </Fragment>

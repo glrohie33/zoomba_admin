@@ -4,12 +4,10 @@ import {
     AUTHALERTNAME,
     ERRORALERT,
     PAYMENTOPTIONSURL,
-    PLATFORMlISTURL,
-    STORELISTURL,
     SUCCESSALERT
 } from "../../utils/texthelper";
 import {addAlert} from "../../store/reducers/alertSlice";
-import {Button, Card, FormControl, Grid, InputLabel, MenuItem, Select, TextField} from "@mui/material";
+import {Button, Card,  Grid, TextField} from "@mui/material";
 import Displayalerts from "../../components/displayalerts";
 import {useDispatch} from "react-redux";
 

@@ -4,7 +4,7 @@ import Register from "./views/register";
 import Login from "./views/login";
 import Dashboard from "./views/dashboard";
 import Header from "./components/header";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import Authenticate from "./components/authenticate";
 import Categories from "./views/categories/categories";
 import AddCategory from "./views/categories/addCategory";
@@ -20,22 +20,21 @@ import AddProduct from "./views/products/addProduct";
 import {useEffect} from "react";
 import {get} from "./actions/auth";
 import {GETUSERURL} from "./utils/texthelper";
-import {logoutUser} from "./store/reducers/loginSlice";
 import AddPage from "./views/pages/addPage";
 import Pages from "./views/pages/pages";
 import Product from "./views/products/product";
 import AddPayment from "./views/paymentOptions/addPayment";
 import PaymentOptions from "./views/paymentOptions/paymentOptions";
 function App() {
-    const {loginState,user} = useSelector(store=>store.auth);
-    const dispatch = useDispatch();
+    const {loginState} = useSelector(store=>store.auth);
+
     useEffect( () => {
         if(loginState){
             get(GETUSERURL).catch(e=>{
                 console.log(e.response.status);
             });
         }
-    },[])
+    },[loginState]);
 
   return (
       <BrowserRouter>

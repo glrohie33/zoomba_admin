@@ -1,6 +1,6 @@
 import React, {Fragment, useEffect, useState} from 'react';
 import {DataGrid, GridActionsCellItem} from "@mui/x-data-grid";
-import {get, patch, post} from "../../actions/auth";
+import {get, patch} from "../../actions/auth";
 import {AUTHALERTNAME, CATEGORYLISTURL, ERRORALERT, SUCCESSALERT} from "../../utils/texthelper";
 import {Button, Grid, Switch} from "@mui/material";
 import {Link, useNavigate} from "react-router-dom";

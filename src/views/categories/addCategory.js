@@ -1,4 +1,4 @@
-import React, { useEffect, useState,Fragment, useCallback} from 'react';
+import React, {useEffect, useState, Fragment, useCallback} from 'react';
 import {get, post} from "../../actions/auth";
 import {
     ATTRIBUTElISTURL,
@@ -14,7 +14,7 @@ import {addAlert} from "../../store/reducers/alertSlice";
 import {useDispatch} from "react-redux";
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import {buildCustomEvent, convertToForm, getInputFiles} from "../../utils/utils";
+import {buildCustomEvent} from "../../utils/utils";
 import modal from "../../components/HOC/modal";
 import ImageSelector from "../../components/imageSelector";
 
@@ -34,15 +34,6 @@ function AddCategory(props) {
     })
 
     const dispatch = useDispatch();
-    const formSchema = {
-        name:"",
-        parent:"",
-        image:"",
-        title:"",
-        tag:[],
-        attributes:[],
-        platforms:[],
-    };
     const initialState ={
         name:"",
             parent:"",
@@ -55,7 +46,7 @@ function AddCategory(props) {
     }
     const[formFields,setFormField] = useState(initialState)
 
-    const getCategories = ()=>{
+    const getCategories = useCallback(()=>{
         get(CATEGORYLISTURL,{
             signal
         }).then(({data})=>{
@@ -67,9 +58,10 @@ function AddCategory(props) {
             .catch(e=>{
                 console.log(e.message);
             })
-    }
+    },[setCategories,signal])
 
-    const getPlatforms = ()=>{
+
+    const getPlatforms = useCallback(()=>{
         get(PLATFORMlISTURL, {
             signal
         }).then(({data})=>{
@@ -80,10 +72,10 @@ function AddCategory(props) {
         })
             .catch(e=>{
                 console.log(e.message);
-        })
-    }
+            })
+    },[setPlatforms,signal])
 
-    const getAttributes = ()=>{
+    const getAttributes = useCallback(()=>{
         get(ATTRIBUTElISTURL,{
             signal
         }).then(({data})=>{
@@ -95,7 +87,7 @@ function AddCategory(props) {
             .catch(e=>{
                 console.log(e.message);
             })
-    }
+    },[setAttributes,signal])
 
 
     useEffect(()=>{
@@ -105,7 +97,7 @@ function AddCategory(props) {
         // return()=>{
         //     abortController.abort();
         // }
-    },[]);
+    },[getAttributes,getCategories,getPlatforms]);
 
     function setFieldData(event){
         setFormField(v=>({...v,[event.target.name]:event.target.value}))
@@ -182,7 +174,7 @@ function AddCategory(props) {
                         <TextField name='title' value={formFields.title} label="title" onChange={setFieldData }/>
                         <Autocomplete
                             options={categories}
-                            value={categories.find( v => categories.id == formFields.parent)}
+                            value={categories.find( v => categories.id === formFields.parent)}
                             getOptionLabel={options=>options.name}
                             onChange={setSelectedCategory}
                             renderInput={(params) => <TextField {...params} label="Parent Category" />}

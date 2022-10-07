@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState, Fragment, useRef} from 'react';
+import React, {useCallback, useMemo, useState,useRef} from 'react';
 import {Button, Grid, Modal} from "@mui/material";
 import ImageSelector from "../imageSelector";
 import {buildCustomEvent} from "../../utils/utils";
@@ -44,7 +44,7 @@ function AddPageBanner({images,setData}) {
                        {
                            images?.sliders?.map(item=>(
                                <Grid item sm={4} style={{textAlign:'center'}}>
-                                   <img src={item.url} style={{width:'100%',height:'100px',objectFit:"contain"}}/>
+                                   <img src={item.url} alt={item?.title} style={{width:'100%',height:'100px',objectFit:"contain"}}/>
                                </Grid>
                            ))
                        }
@@ -58,7 +58,7 @@ function AddPageBanner({images,setData}) {
                         {
                             images?.sideBanners?.map(item=>(
                                 <Grid item sm={4} style={{textAlign:'center'}}>
-                                    <img src={item.url} style={{width:'100%',height:'100px',objectFit:"contain"}}/>
+                                    <img src={item.url} alt={item.title} style={{width:'100%',height:'100px',objectFit:"contain"}}/>
                                 </Grid>
                             ))
                         }

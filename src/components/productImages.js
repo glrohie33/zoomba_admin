@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useState} from 'react';
+import React, {Fragment, useCallback, useEffect, useState} from 'react';
 import {Grid} from "@mui/material";
 import {buildCustomEvent, getInputFiles} from "../utils/utils";
 import {DEFAULTIMAGE} from "../utils/texthelper";
@@ -25,14 +25,14 @@ function ProductImages({ formFields,setFormData}) {
     }]
     const [images,setImages] = useState(initialValues);
 
-    const loadIncomingFile = async ()=>{
-      const files = await getInputFiles(formFields.images.filter(image=>image!==''));
-      const newFiles = [...images];
-      files.forEach((file,index)=>{
-          newFiles[index] = {image:file.file,imagePreview: file.preview};
-      })
+    const loadIncomingFile = useCallback(async ()=>{
+        const files = await getInputFiles(formFields.images.filter(image=>image!==''));
+        const newFiles = [...images];
+        files.forEach((file,index)=>{
+            newFiles[index] = {image:file.file,imagePreview: file.preview};
+        })
         setImages(newFiles);
-    }
+    },[setImages,formFields.images,images])
 
     const setUploadedFile = async ({target}, index) => {
         const files = await getInputFiles(target.files);
@@ -47,7 +47,7 @@ function ProductImages({ formFields,setFormData}) {
 
     useEffect(()=>{
         loadIncomingFile();
-    },[])
+    },[loadIncomingFile])
     return (
         <Fragment>
             <Grid container spacing={3}>
@@ -55,7 +55,7 @@ function ProductImages({ formFields,setFormData}) {
                     images.map((image,index)=>(
                         <Grid item sm={4} key={index} >
                             <label className={'product-images-label'}>
-                                <img src={image.imagePreview||DEFAULTIMAGE} style={{height:'300px',objectFit:'contain'}}/>
+                                <img src={image.imagePreview||DEFAULTIMAGE} alt={ `product ${index}`} style={{height:'300px',objectFit:'contain'}}/>
                                 <input type='file' name={`file${index}`}  onChange={(event)=>{setUploadedFile(event,index)}} />
                             </label>
                         </Grid>

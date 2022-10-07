@@ -1,4 +1,4 @@
-import React, {useState, Fragment, useEffect} from 'react';
+import React, {useState, Fragment, useEffect, useCallback} from 'react';
 import {
     Button,
     Card,
@@ -7,7 +7,6 @@ import {
     Grid,
     InputLabel,
     MenuItem,
-    Modal,
     Select,
     TextField
 } from "@mui/material";
@@ -41,9 +40,7 @@ function AddPage(props) {
             sliders:[]
         }
     });
-    const selectComponent = (component)=>{
-        setCurrentView(component);
-    }
+
 
     const setItem = ({target:{name,value}})=>{
         setSelectedComponent(v=>({...v,[name]:value}))
@@ -98,7 +95,7 @@ function AddPage(props) {
         const newContents = [...contents];
         newContents.splice(index,1);
         setPageContent(newContents);
-        if(selectedItemIndex == index){
+        if(selectedItemIndex === index){
             setCurrentView('componentList')
             setSelectedItemIndex(0);
             setSelectedComponent({});
@@ -157,25 +154,28 @@ function AddPage(props) {
 
     }
 
-    const getPage = ()=>{
-        get(`${POSTURL}/${slug}`)
-            .then((resp)=>{
-                const {status,post} = resp.data;
-                if(status){
-                    const contents = post.contents.map((content)=>{
-                        const newContent = {...content};
-                        newContent.itemsPreview = content.items;
-                        newContent.items = content.items.map(item=>item.id);
-                        if(content.itemsType === 'products'){
-                            newContent.sku = content.items.map(item=><item className="">sku</item>);
-                        }
-                        return newContent;
-                    });
-                    setFormFields(post);
-                    setPageContent(contents);
-                }
-            })
-    }
+    const getPage = useCallback(
+        ()=>{
+            get(`${POSTURL}/${slug}`)
+                .then((resp)=>{
+                    const {status,post} = resp.data;
+                    if(status){
+                        const contents = post.contents.map((content)=>{
+                            const newContent = {...content};
+                            newContent.itemsPreview = content.items;
+                            newContent.items = content.items.map(item=>item.id);
+                            if(content.itemsType === 'products'){
+                                newContent.sku = content.items.map(item=><item className="">sku</item>);
+                            }
+                            return newContent;
+                        });
+                        setFormFields(post);
+                        setPageContent(contents);
+                    }
+                })
+        },[slug])
+
+
 
     const getPlatforms = ()=>{
         get(PLATFORMlISTURL).then((resp)=>{
@@ -194,7 +194,7 @@ function AddPage(props) {
             getPage();
         }
         getPlatforms();
-    },[]);
+    },[getPage,slug]);
 
 
 
@@ -243,7 +243,6 @@ function AddPage(props) {
                        <Grid item sm={12}>
                            {
                                contents.map((content,index)=> {
-                                       const date = new Date().getTime();
                                        const className = [];
                                        if(content.hideImageName){
                                            className.push('no-image-name')

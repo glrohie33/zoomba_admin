@@ -20,8 +20,6 @@ import ImageSelector from "../../components/imageSelector";
 
 const ImageModal = modal(ImageSelector);
 function AddCategory(props) {
-    const abortController  = new AbortController();
-    const signal = abortController.signal;
     const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
     const checkedIcon = <CheckBoxIcon fontSize="small" />;
     const [categories,setCategories] = useState([]);
@@ -47,9 +45,7 @@ function AddCategory(props) {
     const[formFields,setFormField] = useState(initialState)
 
     const getCategories = useCallback(()=>{
-        get(CATEGORYLISTURL,{
-            signal
-        }).then(({data})=>{
+        get(CATEGORYLISTURL).then(({data})=>{
             const {status,categories} = data;
             if(status){
                 setCategories(categories);
@@ -58,13 +54,11 @@ function AddCategory(props) {
             .catch(e=>{
                 console.log(e.message);
             })
-    },[setCategories,signal])
+    },[setCategories])
 
 
     const getPlatforms = useCallback(()=>{
-        get(PLATFORMlISTURL, {
-            signal
-        }).then(({data})=>{
+        get(PLATFORMlISTURL ).then(({data})=>{
             const {status,platforms} = data;
             if(status){
                 setPlatforms(platforms);
@@ -73,12 +67,10 @@ function AddCategory(props) {
             .catch(e=>{
                 console.log(e.message);
             })
-    },[setPlatforms,signal])
+    },[setPlatforms])
 
     const getAttributes = useCallback(()=>{
-        get(ATTRIBUTElISTURL,{
-            signal
-        }).then(({data})=>{
+        get(ATTRIBUTElISTURL).then(({data})=>{
             const {status,attributes} = data;
             if(status){
                 setAttributes(attributes);
@@ -87,7 +79,7 @@ function AddCategory(props) {
             .catch(e=>{
                 console.log(e.message);
             })
-    },[setAttributes,signal])
+    },[setAttributes])
 
 
     useEffect(()=>{

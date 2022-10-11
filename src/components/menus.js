@@ -68,12 +68,12 @@ function Menus(props) {
                         <ListItemText primary="Platforms"/>
                     </ListItemButton>
                 </ListItem>
-                <ListItem onClick={()=>navigate('/pages')}>
+                <ListItem onClick={()=>navigate('/paymentOptions')}>
                     <ListItemButton>
                         <ListItemIcon>
                             <Home></Home>
                         </ListItemIcon>
-                        <ListItemText primary="Pages"/>
+                        <ListItemText primary="PaymentOptions"/>
                     </ListItemButton>
                 </ListItem>
 

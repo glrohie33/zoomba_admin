@@ -17,9 +17,7 @@ function ImageSelector({inFileType='image',currentFiles=[],closeModal,setSelecti
     let loadEnd = useRef(true);
     const loadFiles = useCallback(
         ()=>{
-            get(`${MEDIAURL}?fileType=${inFileType}&currentPage=${currentPage}`,{
-                signal
-            })
+            get(`${MEDIAURL}?fileType=${inFileType}&currentPage=${currentPage}`)
                 .then(({status,data})=>{
                 if(data.status){
                     const filteredFiles = data.files.filter(file=>(!currentImagesId.includes(file.id)));
@@ -35,7 +33,7 @@ function ImageSelector({inFileType='image',currentFiles=[],closeModal,setSelecti
                 }
             )
     }
-    ,[currentPage,currentImagesId, files, inFileType, signal]);
+    ,[currentPage,currentImagesId, files, inFileType]);
 
     function uploadFiles(){
         const requests = uploadedFiles.map(uploadedFile=>{

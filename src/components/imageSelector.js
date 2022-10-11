@@ -5,8 +5,6 @@ import {MEDIAURL} from "../utils/texthelper";
 import {convertToForm, getInputFiles} from "../utils/utils";
 import axios from "axios";
 function ImageSelector({inFileType='image',currentFiles=[],closeModal,setSelection, multiple=false}) {
-    const abortController = new AbortController();
-    const signal = abortController.signal;
     const [files,setLoadedFiles] = useState(currentFiles);
     const [currentTab,setCurrentTab] = useState(1);
     const [uploadedFiles,setUploadedFiles] = useState([]);

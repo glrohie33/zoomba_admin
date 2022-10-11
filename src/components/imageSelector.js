@@ -1,4 +1,4 @@
-import React, {Fragment, memo, useCallback, useEffect, useRef, useState} from 'react';
+import React, {Fragment, memo, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {Button, Card, Grid, Paper, Tab, Tabs, TextField} from "@mui/material";
 import {get, post} from '../actions/auth';
 import {MEDIAURL} from "../utils/texthelper";
@@ -10,28 +10,31 @@ function ImageSelector({inFileType='image',currentFiles=[],closeModal,setSelecti
     const [uploadedFiles,setUploadedFiles] = useState([]);
     const [selectedFiles,setSelectedFiles] = useState(currentFiles);
     const [currentPage,setCurrentPage] = useState(1);
-    const currentImagesId = currentFiles.map(file=>(file.id));
+    const currentImagesId = useMemo(()=>currentFiles.map(file=>(file.id)),[currentFiles]) ;
     let loadingStatus = useRef(false);
     let loadEnd = useRef(true);
     const loadFiles = useCallback(
         ()=>{
-            get(`${MEDIAURL}?fileType=${inFileType}&currentPage=${currentPage}`)
-                .then(({status,data})=>{
-                if(data.status){
-                    const filteredFiles = data.files.filter(file=>(!currentImagesId.includes(file.id)));
-                    loadEnd.current = (filteredFiles.length === 0);
-                    const newData = [...files,...filteredFiles];
-                    const uniqueData = new Set(newData);
-                    setLoadedFiles([...uniqueData]);
-                }
-            })
-            .catch(
-            ).finally(()=>{
-                    loadingStatus.current = false;
-                }
-            )
-    }
-    ,[currentPage,currentImagesId, files, inFileType]);
+
+                get(`${MEDIAURL}?fileType=${inFileType}&currentPage=${currentPage}`)
+                    .then(({status,data})=>{
+                        if(data.status){
+                            const filteredFiles = data.files.filter(file=>(!currentImagesId.includes(file.id)));
+                            loadEnd.current = (filteredFiles.length === 0);
+                            setLoadedFiles((v)=>{
+                                const uniqueFiles = new Set([...v,...filteredFiles]);
+                                return [...uniqueFiles];
+                            });
+                        }
+                    })
+                    .catch(
+                    ).finally(()=>{
+                        loadingStatus.current = false;
+                    }
+                )
+            }
+
+    ,[currentImagesId,currentPage,setLoadedFiles,inFileType]);
 
     function uploadFiles(){
         const requests = uploadedFiles.map(uploadedFile=>{

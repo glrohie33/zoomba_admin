@@ -12,6 +12,7 @@ function ImageSelector({inFileType='image',currentFiles=[],closeModal,setSelecti
     const [currentPage,setCurrentPage] = useState(1);
     const currentImagesId = useMemo(()=>currentFiles.map(file=>(file.id)),[currentFiles]) ;
     let loadingStatus = useRef(false);
+    let loaded = useRef(false);
     let loadEnd = useRef(true);
     const loadFiles = useCallback(
         ()=>{
@@ -63,12 +64,14 @@ function ImageSelector({inFileType='image',currentFiles=[],closeModal,setSelecti
         }));
     }
     useEffect(()=>{
-        loadingStatus.current = true;
-        loadFiles()
+
+            loadingStatus.current = true;
+            loadFiles()
+
         return ()=>{
-            // abortController.abort();
+           loaded.current = true;
         }
-    },[loadFiles]);
+    },[loadFiles,loaded]);
 
     const setFilesUpload = async (event) => {
         const files = await getInputFiles(event.target.files);
@@ -114,6 +117,7 @@ function ImageSelector({inFileType='image',currentFiles=[],closeModal,setSelecti
                     if( diff < 50){
                         setCurrentPage(value=>value+1);
                         loadingStatus.current = true;
+                        loaded.current = false;
                     }
                 }
             }

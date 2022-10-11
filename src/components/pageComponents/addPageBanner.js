@@ -4,7 +4,7 @@ import ImageSelector from "../imageSelector";
 import {buildCustomEvent} from "../../utils/utils";
 
 function AddPageBanner({images,setData}) {
-    console.log(images);
+
     const [openModal,setModalStatus] = useState(false);
     const modalStatus = useMemo(()=>openModal,[openModal])
     const [currentView,setCurrentView] = useState('');
@@ -14,7 +14,7 @@ function AddPageBanner({images,setData}) {
         setModalStatus(status);
     },[])
     const views = {
-        'files':<ImageSelector inFileType={'image'} currentFiles={selectedImages} closeModal={()=>{handleModalChange(false)}} setSelection={(data)=>{setSelectedItems(data)}}/>,
+        'files':<ImageSelector inFileType={'image'} currentFiles={selectedImages} closeModal={()=>{handleModalChange(false)}} setSelection={(data)=>{setSelectedItems(data)}} multiple={true}/>,
         'products':""
     }
     const setModalContent = (view)=>{

@@ -23,7 +23,7 @@ function AddLinks({formSchema,setData}) {
     }
 
     const views = {
-        'files':<ImageSelector inFileType={'image'} currentFiles={('hideImageName' in formSchema)?formSchema.itemsPreview:[]} closeModal={()=>{handleModalChange(false)}} setSelection={(data)=>{setSelectedItems(data)}}/>,
+        'files':<ImageSelector inFileType={'image'} currentFiles={('hideImageName' in formSchema)?formSchema.itemsPreview:[]} closeModal={()=>{handleModalChange(false)}} setSelection={(data)=>{setSelectedItems(data)}} multiple={true} />,
         'products':""
     }
 

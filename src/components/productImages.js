@@ -2,37 +2,37 @@ import React, {Fragment, useCallback, useEffect, useState} from 'react';
 import {Grid} from "@mui/material";
 import {buildCustomEvent, getInputFiles} from "../utils/utils";
 import {DEFAULTIMAGE} from "../utils/texthelper";
-
+const initialValues=[{
+    image:"",
+    imagePreview:""
+},{
+    image:"",
+    imagePreview:""
+},{
+    image:"",
+    imagePreview:""
+},{
+    image:"",
+    imagePreview:""
+},{
+    image:"",
+    imagePreview:""
+},{
+    image:"",
+    imagePreview:""
+}];
 function ProductImages({ formFields,setFormData}) {
-    const initialValues=[{
-      image:"",
-      imagePreview:""
-    },{
-        image:"",
-        imagePreview:""
-    },{
-        image:"",
-        imagePreview:""
-    },{
-        image:"",
-        imagePreview:""
-    },{
-        image:"",
-        imagePreview:""
-    },{
-        image:"",
-        imagePreview:""
-    }]
+
     const [images,setImages] = useState(initialValues);
 
     const loadIncomingFile = useCallback(async ()=>{
         const files = await getInputFiles(formFields.images.filter(image=>image!==''));
-        const newFiles = [...images];
+        const newFiles = [...initialValues];
         files.forEach((file,index)=>{
             newFiles[index] = {image:file.file,imagePreview: file.preview};
         })
         setImages(newFiles);
-    },[setImages,formFields.images,images])
+    },[setImages,formFields.images,initialValues])
 
     const setUploadedFile = async ({target}, index) => {
         const files = await getInputFiles(target.files);

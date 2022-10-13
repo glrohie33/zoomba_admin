@@ -50,7 +50,7 @@ function SelectCategory({ formFields,setFormData}) {
     useEffect(()=>{
         const previousPlatform = sessionStorage.getItem('productPlatform');
         const initialData = JSON.parse(sessionStorage.getItem('loadedCategories')) || [];
-        if (previousPlatform !== formFields.platform){
+        if (previousPlatform !== formFields.platform || !initialData.length ){
             sessionStorage.setItem('productPlatform',formFields.platform)
             getCategories();
         }else{

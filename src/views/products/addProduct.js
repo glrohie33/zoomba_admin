@@ -190,7 +190,7 @@ function AddProduct(props) {
         }).then(resp=>{
             dispatch(addAlert({
                 name: AUTHALERTNAME,
-                message:'Registration Successfull',
+                message:'Product Upload Successful',
                 status:SUCCESSALERT
             }));
             setFormFields(initialState);
@@ -208,7 +208,7 @@ function AddProduct(props) {
 
 
     useEffect(()=>{
-        sessionStorage.setItem('loadedCategories',JSON.stringify([]))
+        sessionStorage.removeItem('loadedCategories');
         sessionStorage.setItem('platform','');
     },[])
     return (

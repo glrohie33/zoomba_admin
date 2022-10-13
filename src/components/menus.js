@@ -68,6 +68,15 @@ function Menus(props) {
                         <ListItemText primary="Platforms"/>
                     </ListItemButton>
                 </ListItem>
+                <ListItem onClick={()=>navigate('/attributes')}>
+                    <ListItemButton>
+                        <ListItemIcon>
+                            <Home></Home>
+                        </ListItemIcon>
+                        <ListItemText primary="Product Attributes"/>
+                    </ListItemButton>
+                </ListItem>
+
                 <ListItem onClick={()=>navigate('/paymentOptions')}>
                     <ListItemButton>
                         <ListItemIcon>

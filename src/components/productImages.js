@@ -32,7 +32,7 @@ function ProductImages({ formFields,setFormData}) {
             newFiles[index] = {image:file.file,imagePreview: file.preview};
         })
         setImages(newFiles);
-    },[setImages,formFields.images,initialValues])
+    },[setImages,formFields.images])
 
     const setUploadedFile = async ({target}, index) => {
         const files = await getInputFiles(target.files);

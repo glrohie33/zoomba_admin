@@ -21,6 +21,9 @@ import {addAlert} from "../../store/reducers/alertSlice";
 import {useDispatch} from "react-redux";
 import Displayalerts from "../../components/displayalerts";
 import AddPageBanner from "../../components/pageComponents/addPageBanner";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 
 function AddPage(props) {
     const dispatch  = useDispatch();
@@ -35,6 +38,7 @@ function AddPage(props) {
         name:'',
         contents:'',
         homePage:'',
+        textContent:"",
         pageBanners: {
             sideBanners: [],
             sliders:[]
@@ -218,7 +222,7 @@ function AddPage(props) {
                        <Grid item sm={12}>
                            <TextField value={formFields.name} label={'page name'} name={'name'} onChange={setData}/>
                        </Grid>
-                       <Grid item sm = {12}>
+                       <Grid item sm={12}>
                        <FormControl fullWidth>
                            <InputLabel id="demo-simple-select-label">Set as Home Page for</InputLabel>
                            <Select
@@ -234,6 +238,32 @@ function AddPage(props) {
                                }
                            </Select>
                        </FormControl>
+                       </Grid>
+                       <Grid item sm={12} className={'flex flex-center'}>
+                           <div style={{
+                               width:'100%',
+                               marginTop:'30px',
+                               marginBottom:'20px',
+                           }} >
+                               <CKEditor
+                                   style={{
+                                       width:'100%',
+                                       marginTop:'30px',
+                                       marginBottom:'20px',
+                                       height:'450px'
+                                   }}
+                                   editor={ ClassicEditor }
+                                   data={formFields.textContent || ''}
+                                   onChange={ ( event, editor ) => {
+                                       const data = editor.getData();
+                                      setData({target:{
+                                          name:'textContent',
+                                              value:data
+                                          }})
+                                   } }
+                               />
+                           </div>
+
                        </Grid>
                        <Grid item sm={12} className={'flex flex-center'}>
                            <Button variant={'contained'} onClick={()=>addElement('prepend')}>

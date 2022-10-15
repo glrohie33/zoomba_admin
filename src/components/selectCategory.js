@@ -24,10 +24,13 @@ function SelectCategory({ formFields,setFormData}) {
                     sessionStorage.setItem('loadedCategories',JSON.stringify(newData))
                 }
             }
+            if (!currentCategory){
+                loadIncomingCategories();
+            }
         }).catch(e=>{
 
         });
-    },[currentCategory,data,formFields]);
+    },[currentCategory,data,formFields,loadIncomingCategories]);
 
     const categorySelected = (event,index)=>{
         const value = event.target.value;
@@ -59,11 +62,10 @@ function SelectCategory({ formFields,setFormData}) {
         if (previousPlatform !== formFields.platform || !initialData.length ){
             sessionStorage.setItem('productPlatform',formFields.platform)
             getCategories();
-            loadIncomingCategories();
         }else{
             setData(initialData);
         }
-    },[formFields.platform,getCategories,loadIncomingCategories])
+    },[currentCategory,formFields.platform,getCategories])
 
     useEffect(()=>{
         const element = document.querySelector(`.category-list-container`);

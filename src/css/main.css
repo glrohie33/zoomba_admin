@@ -20,7 +20,7 @@
     padding: 30px 20px;
 }
 
-.MuiTextField-root{
+.MuiTextField-root, .MuiFormControl-root{
     margin-bottom: 20px !important;
     width: 100%;
 }

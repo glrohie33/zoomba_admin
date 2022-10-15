@@ -16,16 +16,22 @@ export const getInputFiles = async (inputFiles) => {
     const keys = Object.keys(inputFiles);
     let files = keys.map((key) => {
         const file = inputFiles[key];
-        return new Promise((resolve, reject) => {
-            const fileReader = new FileReader();
-            fileReader.onload = () => {
-                resolve({file,preview:fileReader.result});
-            }
-            fileReader.readAsDataURL(file);
-        });
+         return readFile(file);
     });
 
-    return await Promise.all(files);
+    const value = await Promise.all(files);
+    console.log(value);
+    return value;
+}
+
+export async function readFile(file){
+    return new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.onload = () => {
+            resolve({file,preview:fileReader.result});
+        }
+        fileReader.readAsDataURL(file);
+    });
 }
 
 export function convertToForm(form,formSchema=null){

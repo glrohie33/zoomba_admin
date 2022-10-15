@@ -1,7 +1,7 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import {get} from "../actions/auth";
 import {ATTRIBUTElISTURL, BRANDLISTURL, STORELISTURL} from "../utils/texthelper";
-import {Autocomplete, FormControl, Grid, InputLabel, MenuItem, Select, TextField} from "@mui/material";
+import { FormControl, Grid, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import {buildCustomEvent} from "../utils/utils";
 
 function ProductDetails({ formFields,setFormData}) {
@@ -85,16 +85,30 @@ function ProductDetails({ formFields,setFormData}) {
                             }
                         </Select>
                     </FormControl>
-                    <Autocomplete
-                        options={brands}
-                        name={'brand'}
-                        getOptionLabel={options=>options.name}
-                        onChange={(event,value)=>{
-                            setFormData(buildCustomEvent('brand',value.id));
-                        }}
-                        filterSelectedOptions
-                        renderInput={(params) => <TextField {...params} label="Select Brand" />}
-                    />
+                    <FormControl fullWidth >
+                        <InputLabel id="brand-label">Select Brand</InputLabel>
+                        {
+                            console.log(formFields.brand)
+                        }
+                        <Select
+                            labelId={"brand-label"}
+                            label="Entity"
+                            value={formFields.brand}
+                            onChange={setFormData}
+                            name="brand"
+                        >
+                            <MenuItem value={""}> Select Store</MenuItem>
+                            {
+                                brands.map(brand=>
+                                    (
+                                        <MenuItem value={brand.id} key={brand.id}>
+                                            {brand.name}
+                                        </MenuItem>
+                                    )
+                                )
+                            }
+                        </Select>
+                    </FormControl>
                     <TextField value={formFields.productWeight} name={'productWeight'} label={'weight'} onChange={setFormData}/>
                     <TextField value={formFields.modelNumber} name={'modelNumber'} label={'model number'} onChange={setFormData}/>
                     <TextField value={formFields.sku} name={'sku'} label={'sku'} onChange={setFormData}/>

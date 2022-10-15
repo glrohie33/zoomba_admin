@@ -57,6 +57,7 @@ function App() {
                     <Route path="attributes" element={<Authenticate><Attributes/></Authenticate>}></Route>
                     <Route path="attributes/add" element={<Authenticate><AddAttribute/></Authenticate>}></Route>
                     <Route path="products/add" element={<Authenticate><AddProduct/></Authenticate>}></Route>
+                    <Route path="products/edit/:id" element={<Authenticate><AddProduct/></Authenticate>}></Route>
                     <Route path="products" element={<Authenticate><Product/></Authenticate>}></Route>
                     <Route path="pages" element={<Authenticate><Pages/></Authenticate>}></Route>
                     <Route path="pages/edit/:slug" element={<Authenticate><AddPage/></Authenticate>}></Route>

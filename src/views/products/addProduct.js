@@ -9,14 +9,16 @@ import SelectCategory from "../../components/selectCategory";
 import ProductDetails from "../../components/productDetails";
 import ProductImages from "../../components/productImages";
 import AddPrice from "../../components/addPrice";
-import {post} from "../../actions/auth";
+import {get, post} from "../../actions/auth";
 import {convertToForm} from "../../utils/utils";
-
+import {useParams} from "react-router-dom";
+const imagesInit = Array(6).fill('');
 function AddProduct(props) {
+    const {id} = useParams();
     const initialState = {
         platform:"",
         name:"",
-        images:[],
+        images:imagesInit,
         categories:[],
         brand:"",
         description:"",
@@ -115,9 +117,6 @@ function AddProduct(props) {
         },
     ];
 
-
-
-
     const next = ()=>{
         const currentStep = steps[activeStep];
         let resp = {
@@ -206,6 +205,37 @@ function AddProduct(props) {
         });
     }
 
+    const getProduct = useCallback((id)=>{
+            get(`${PRODUCTURL}/${id}`).then(resp=>{
+                const {status,product} = resp.data;
+                if (status){
+                    const {productImages,categories,brand,price,quantity,variations} = product;
+
+                    const images = imagesInit.map((img,index)=>(productImages[index]?.url||img));
+                    product.categories = categories.map(cat=>cat.id);
+                    product.brand = brand.id;
+                    product.images = images;
+                    product.productPurchasePrice = price;
+                    product.productQuantity = quantity;
+                    product.productVariations = variations;
+                    product.categories = categories.map(category=>category.id);
+                    setFormFields(v=>{
+                        const newForms = Object.assign(v,product);
+                        console.log(newForms);
+                        return newForms;
+                    });
+                }
+
+            }).catch(e=>{
+                console.log(e);
+            });
+    },[]);
+
+useEffect(()=>{
+    if (id){
+        getProduct(id);
+    }
+},[id,getProduct])
 
     useEffect(()=>{
         sessionStorage.removeItem('loadedCategories');

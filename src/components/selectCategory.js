@@ -24,6 +24,7 @@ function SelectCategory({ formFields,setFormData}) {
                     sessionStorage.setItem('loadedCategories',JSON.stringify(newData))
                 }
             }
+            loadIncomingCategories();
         }).catch(e=>{
 
         });
@@ -45,6 +46,12 @@ function SelectCategory({ formFields,setFormData}) {
             setFormData(buildCustomEvent('categories',newArray));
         }
 
+    }
+
+    function loadIncomingCategories(){
+        formFields.categories.forEach(category=>{
+                    setCurrentCategory(category);
+        });
     }
 
     useEffect(()=>{

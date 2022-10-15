@@ -1,48 +1,30 @@
 import React, {Fragment, useCallback, useEffect, useState} from 'react';
 import {Grid} from "@mui/material";
-import {buildCustomEvent, getInputFiles} from "../utils/utils";
+import {buildCustomEvent, readFile} from "../utils/utils";
 import {DEFAULTIMAGE} from "../utils/texthelper";
-const initialValues=[{
-    image:"",
-    imagePreview:""
-},{
-    image:"",
-    imagePreview:""
-},{
-    image:"",
-    imagePreview:""
-},{
-    image:"",
-    imagePreview:""
-},{
-    image:"",
-    imagePreview:""
-},{
-    image:"",
-    imagePreview:""
-}];
 function ProductImages({ formFields,setFormData}) {
 
-    const [images,setImages] = useState(initialValues);
+    const [images,setImages] = useState([]);
 
     const loadIncomingFile = useCallback(async ()=>{
-        const files = await getInputFiles(formFields.images.filter(image=>image!==''));
-        const newFiles = [...initialValues];
-        files.forEach((file,index)=>{
-            newFiles[index] = {image:file.file,imagePreview: file.preview};
+        const allFiles =  formFields.images.map((image)=>{
+            if (image && typeof image !== 'string'){
+                return readFile(image);
+            }else{
+                return new Promise((resolve)=>{
+                    resolve({image,preview:image});
+                })
+            }
         })
+        const newFiles = await Promise.all(allFiles);
         setImages(newFiles);
+
     },[setImages,formFields.images])
 
     const setUploadedFile = async ({target}, index) => {
-        const files = await getInputFiles(target.files);
-        const image = files[0]?.file || "";
-        const imagePreview = files[0]?.preview || DEFAULTIMAGE;
-        const newImages = [...images];
-        newImages[index] = {image,imagePreview};
-        setImages(newImages);
-        const newSelectedImages = newImages.map(image=>image.image);
-        setFormData(buildCustomEvent('images',newSelectedImages));
+        const newImages = [...formFields.images]
+        newImages[index] = target.files[0] || "";
+        setFormData(buildCustomEvent('images', newImages));
     }
 
     useEffect(()=>{
@@ -55,7 +37,7 @@ function ProductImages({ formFields,setFormData}) {
                     images.map((image,index)=>(
                         <Grid item sm={4} key={index} >
                             <label className={'product-images-label'}>
-                                <img src={image.imagePreview||DEFAULTIMAGE} alt={ `product ${index}`} style={{height:'300px',objectFit:'contain'}}/>
+                                <img src={image.preview||DEFAULTIMAGE} alt={ `product ${index}`} style={{height:'300px',objectFit:'contain'}}/>
                                 <input type='file' name={`file${index}`}  onChange={(event)=>{setUploadedFile(event,index)}} />
                             </label>
                         </Grid>

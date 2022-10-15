@@ -51,9 +51,9 @@ function Product(props) {
             field: 'actions',
             type:'actions',
             headerName: 'Actions',
-            getActions:({row:{slug}})=>[
+            getActions:({row:{id}})=>[
                 <GridActionsCellItem icon={<Delete/>} label={'delete'}/>,
-                <GridActionsCellItem icon={<Link  to={`/products/${slug}`}><Edit/></Link>} label={'edit'}/>
+                <GridActionsCellItem icon={<Link  to={`/products/edit/${id}`}><Edit/></Link>} label={'edit'}/>
             ]
         }
 
@@ -61,10 +61,14 @@ function Product(props) {
     const [page,setPage] = useState(1);
     const [rowCount,setRowCount] = useState(1);
     const [data,setData] = useState([]);
+    const totalRows = useMemo(()=>{
+        return rowCount;
+    },[rowCount]);
+
 
     const getProducts = useCallback(()=>{
         if(page){
-            get(`${PRODUCTURL}?currentPage=${page}`).then(resp=>{
+            get(`${PRODUCTURL}?currentPage=${page},perPage=2`).then(resp=>{
                 const {status,products:{products},total} = resp.data;
                 if(status){
                     setData(products);
@@ -94,9 +98,12 @@ function Product(props) {
                         <DataGrid
                             paginationMode={'server'}
                             page={page}
-                            rowCount={rowCount}
+                            rowCount={totalRows}
                             columns={columns}
                             rows={data}
+                            pagination
+                            pageSize={20}
+                            rowsPerPageOptions={[20]}
                             style={{ height: 300, width: '100%' }}
                             onPageChange={(newPage)=>setPage(newPage)}
                         ></DataGrid>

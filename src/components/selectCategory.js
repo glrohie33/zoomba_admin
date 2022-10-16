@@ -10,8 +10,16 @@ function SelectCategory({ formFields,setFormData}) {
 
     const [data,setData] = useState([ ]);
     const [currentCategory,setCurrentCategory] = useState("");
-    const [selectedCategories,setSelectedCategories] = useState(formFields.categories);
+    const selectedCategories = useRef(formFields.categories);
     const platform = useRef("");
+    const loadIncomingCategories = useCallback(()=>{
+        if (!currentCategory) {
+            selectedCategories.current.forEach(category => {
+                setCurrentCategory(category);
+            });
+        }
+    },[currentCategory,])
+
     const getCategories =useCallback(()=>{
         get(`${CATEGORYLISTURL}?parent=${currentCategory}&children=true`,{
             headers: {platform:formFields.platform}
@@ -24,9 +32,7 @@ function SelectCategory({ formFields,setFormData}) {
                     sessionStorage.setItem('loadedCategories',JSON.stringify(newData))
                 }
             }
-            if (!currentCategory){
                 loadIncomingCategories();
-            }
         }).catch(e=>{
 
         });
@@ -42,7 +48,7 @@ function SelectCategory({ formFields,setFormData}) {
                 newData.splice(index+1);
             }
             newArray.push(value);
-            setSelectedCategories(newArray);
+            selectedCategories.current = newArray;
             setData(newData);
             setCurrentCategory(value);
             setFormData(buildCustomEvent('categories',newArray));
@@ -50,11 +56,6 @@ function SelectCategory({ formFields,setFormData}) {
 
     }
 
-    function loadIncomingCategories(){
-        formFields.categories.forEach(category=>{
-                    setCurrentCategory(category);
-        });
-    }
 
     useEffect(()=>{
         const previousPlatform = sessionStorage.getItem('productPlatform');
@@ -76,7 +77,7 @@ function SelectCategory({ formFields,setFormData}) {
 
     },[data])
 
-    const isSelected = (id)=>(selectedCategories.includes(id));
+    const isSelected = (id)=>(formFields.categories.includes(id));
     return (
         <Fragment>
             <Grid container>

@@ -183,16 +183,29 @@ function AddProduct(props) {
         const form = {...formFields};
         form.productAttributes = JSON.stringify(formFields.productAttributes);
         form.productVariations = JSON.stringify(formFields.productVariations);
+        form.deletedImages = [];
+        formFields.productImages.forEach(img=>{
+                if (!formFields.images.includes(img.url)){
+                    form.deletedImages.push(img.url);
+                }
+        });
+        form.images =formFields.images.filter(img=> (img) && typeof img != 'string' );
         const formData = convertToForm(form);
-        post(PRODUCTURL,formData,{
+        let params = "";
+        if(id){
+            params = `/${id}`;
+        }
+        post(PRODUCTURL+params,formData,{
             'Content-Type': 'multipart/form-data'
         }).then(resp=>{
             dispatch(addAlert({
                 name: AUTHALERTNAME,
-                message:'Product Upload Successful',
+                message: (id)?'Product Updated Successfully':'Product Upload Successful',
                 status:SUCCESSALERT
             }));
-            setFormFields(initialState);
+            if (!id){
+                setFormFields(initialState);
+            }
             setActiveStep(0);
             setActiveView(0);
         }).catch(e=>{
@@ -209,19 +222,27 @@ function AddProduct(props) {
             get(`${PRODUCTURL}/${id}`).then(resp=>{
                 const {status,product} = resp.data;
                 if (status){
-                    const {productImages,categories,brand,price,quantity,variations} = product;
+                    const {productImages,categories,brand,price,quantity,variations,tags,mainImage} = product;
 
-                    const images = imagesInit.map((img,index)=>(productImages[index]?.url||img));
+                    product.images = imagesInit;
+                    productImages.forEach((img,index)=>{
+                             if (img.url  === mainImage){
+                                 product.images.unshift(img.url);
+                                 product.images.pop();
+                             }else{
+                                product.images[index] = img.url;
+                             }
+                    });
+
                     product.categories = categories.map(cat=>cat.id);
                     product.brand = brand.id;
-                    product.images = images;
                     product.productPurchasePrice = price;
                     product.productQuantity = quantity;
                     product.productVariations = variations;
                     product.categories = categories.map(category=>category.id);
+                    product.tags = tags.join('');
                     setFormFields(v=>{
                         const newForms = Object.assign(v,product);
-                        console.log(newForms);
                         return newForms;
                     });
                 }

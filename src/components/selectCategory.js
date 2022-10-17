@@ -41,7 +41,7 @@ function SelectCategory({ formFields,setFormData}) {
     const categorySelected = (event,index)=>{
         const value = event.target.value;
         if(!isSelected(value)){
-            const newArray = [...selectedCategories];
+            const newArray = [...selectedCategories.current];
             const newData = [...data];
             if(selectedCategories.length > 0 ){
                 newArray.splice(index);

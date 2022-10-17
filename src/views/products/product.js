@@ -67,7 +67,6 @@ function Product(props) {
 
 
     const getProducts = useCallback(()=>{
-        if(page){
             get(`${PRODUCTURL}?currentPage=${page === 0?1:page+1}`).then(resp=>{
                 const {status,products:{products,total}} = resp.data;
                 if(status){
@@ -75,7 +74,6 @@ function Product(props) {
                     setRowCount(total)
                 }
             })
-        }
     },[page]);
 
     useEffect(()=>{

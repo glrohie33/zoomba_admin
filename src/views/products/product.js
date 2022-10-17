@@ -95,6 +95,7 @@ function Product(props) {
                         </div>
                     </Grid>
                     <Grid sm={12}>
+                        <p>{totalRows} No Of Products</p>
                         <DataGrid
                             paginationMode={'server'}
                             page={page}

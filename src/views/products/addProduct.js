@@ -184,7 +184,8 @@ function AddProduct(props) {
         form.productAttributes = JSON.stringify(formFields.productAttributes);
         form.productVariations = JSON.stringify(formFields.productVariations);
         form.deletedImages = [];
-        formFields.productImages.forEach(img=>{
+        const productImages = formFields.productImages || [];
+        productImages.forEach(img=>{
                 if (!formFields.images.includes(img.url)){
                     form.deletedImages.push(img.url);
                 }

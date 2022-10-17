@@ -58,7 +58,7 @@ function Product(props) {
         }
 
     ],[]);
-    const [page,setPage] = useState(1);
+    const [page,setPage] = useState(0);
     const [rowCount,setRowCount] = useState(1);
     const [data,setData] = useState([]);
     const totalRows = useMemo(()=>{
@@ -68,7 +68,7 @@ function Product(props) {
 
     const getProducts = useCallback(()=>{
         if(page){
-            get(`${PRODUCTURL}?currentPage=${page},perPage=2`).then(resp=>{
+            get(`${PRODUCTURL}?currentPage=${page === 0?1:page+1}`).then(resp=>{
                 const {status,products:{products,total}} = resp.data;
                 if(status){
                     setData(products);

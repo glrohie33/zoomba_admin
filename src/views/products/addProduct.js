@@ -223,7 +223,7 @@ function AddProduct(props) {
             get(`${PRODUCTURL}/${id}`).then(resp=>{
                 const {status,product} = resp.data;
                 if (status){
-                    const {productImages,categories,brand,price,quantity,variations,tags,mainImage} = product;
+                    const {productImages,categories,brand,purchasePrice,quantity,variations,tags,mainImage} = product;
 
                     product.images = imagesInit;
                     productImages.forEach((img,index)=>{
@@ -237,7 +237,7 @@ function AddProduct(props) {
 
                     product.categories = categories.map(cat=>cat.id);
                     product.brand = brand.id;
-                    product.productPurchasePrice = price;
+                    product.productPurchasePrice = purchasePrice;
                     product.productQuantity = quantity;
                     product.productVariations = variations;
                     product.categories = categories.map(category=>category.id);

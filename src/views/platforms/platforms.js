@@ -2,8 +2,9 @@ import React,{Fragment,useState,useEffect} from 'react';
 import {Button, Grid} from "@mui/material";
 import {get} from "../../actions/auth";
 import {PLATFORMlISTURL} from "../../utils/texthelper";
-import {DataGrid} from "@mui/x-data-grid";
+import {DataGrid, GridActionsCellItem} from "@mui/x-data-grid";
 import {Link} from "react-router-dom";
+import {Delete, Edit, Home} from "@mui/icons-material";
 
 function Platforms(props) {
     const columns = [
@@ -12,17 +13,19 @@ function Platforms(props) {
             flex:1
         },
         {
-            field: 'slug',
+            field: 'key',
+            headerName: 'Key',
+            flex: 1
+        },
+        {
+            field: 'actions',
+            type:'actions',
             headerName: 'Actions',
-            renderCell:({value})=>{
-                return <Button
-                    variant="contained"
-                    size="small"
-                    style={{marginLeft:16}}
-                >
-                    Edit
-                </Button>
-            }
+            getActions:({row:{slug,homepage}})=>[
+                <GridActionsCellItem icon={<Delete/>} label={'delete'}/>,
+                <GridActionsCellItem icon={<Edit/>} label={'edit'} />,
+                <GridActionsCellItem icon={<Link to={(homepage.length>0)?`/pages/edit/${homepage[0].slug}`:''}><Home/></Link>} />
+            ]
         }
     ];
 

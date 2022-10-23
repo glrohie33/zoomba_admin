@@ -35,7 +35,7 @@ function AddLinks({formSchema,setData}) {
     const addProduct=()=>{
         get(`${PRODUCTURL}?filterBy=sku&filters=${formSchema.sku.join(',')}`)
             .then(resp=>{
-               const {status,products} = resp.data;
+               const {status,products:{products}} = resp.data;
                if(status){
                    setData(buildCustomEvent('items',products.map(v=>v.id)))
                    setData(buildCustomEvent('itemsPreview',products));

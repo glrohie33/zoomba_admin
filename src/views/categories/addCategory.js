@@ -87,11 +87,10 @@ function AddCategory(props) {
             .then(({data})=>{
                 const {status,category} = data;
                 if (status){
-                  const newCategory  = Object.assign(initialState,category);
-                  setFormField(newCategory);
+                  setFormField(category);
                 }
             }).catch(e=>{console.log(e)})
-    },[id])
+    },[id,setFormField])
 
     useEffect(()=>{
         getCategories();

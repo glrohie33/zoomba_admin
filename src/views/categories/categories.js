@@ -54,9 +54,9 @@ function Categories(props) {
             field: 'actions',
             type:'actions',
             headerName: 'Actions',
-            getActions:({row:{slug}})=>[
+            getActions:({row:{id}})=>[
                 <GridActionsCellItem icon={<Delete/>} label={'delete'}/>,
-                <GridActionsCellItem icon={<Edit/>} label={'edit'} onClick={()=>{editItem(slug)}}/>
+                <GridActionsCellItem icon={<Edit/>} label={'edit'} onClick={()=>{editItem(id)}}/>
             ],
         }
     ];

@@ -27,11 +27,8 @@ function AddProduct(props) {
         productWeight:0,
         store:"",
         productPurchasePrice:"",
-        discount:"",
-        vat:"",
         sku:"",
         modelNumber:"",
-        price:"",
         unit:"",
         salePrice:"",
         productQuantity:"",
@@ -223,8 +220,7 @@ function AddProduct(props) {
             get(`${PRODUCTURL}/${id}`).then(resp=>{
                 const {status,product} = resp.data;
                 if (status){
-                    const {productImages,categories,brand,purchasePrice,quantity,variations,tags,mainImage} = product;
-
+                    const {productImages,vat,weight,categories,brand,purchasePrice,quantity,variations,tags,mainImage} = product;
                     product.images = imagesInit;
                     productImages.forEach((img,index)=>{
                              if (img.url  === mainImage){
@@ -234,7 +230,6 @@ function AddProduct(props) {
                                 product.images[index] = img.url;
                              }
                     });
-
                     product.categories = categories.map(cat=>cat.id);
                     product.brand = brand.id;
                     product.productPurchasePrice = purchasePrice;
@@ -242,8 +237,21 @@ function AddProduct(props) {
                     product.productVariations = variations;
                     product.categories = categories.map(category=>category.id);
                     product.tags = tags.join('');
+                    product.productWeight = weight;
+                    product.productVat = vat;
+
+                    delete product.purchasePrice;
+                    delete product.price;
+                    delete product.weight;
+                    delete product.quantity;
+                    delete product.discount;
+                    delete product.attributes;
+                    delete product.vat;
+                    delete product.variations;
+
                     setFormFields(v=>{
                         const newForms = Object.assign(v,product);
+                        console.log(newForms);
                         return newForms;
                     });
                 }

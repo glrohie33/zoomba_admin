@@ -48,6 +48,7 @@ function App() {
                         </Route>
                         <Route path="categories" element={<Authenticate><Categories/></Authenticate>}></Route>
                         <Route path="categories/add" element={<Authenticate><AddCategory/></Authenticate>}></Route>
+                    <Route path="categories/edit/:id" element={<Authenticate><AddCategory/></Authenticate>}></Route>
                     <Route path="brands" element={<Authenticate><Brands/></Authenticate>}></Route>
                     <Route path="platforms" element={<Authenticate><Platforms/></Authenticate>}></Route>
                     <Route path="platforms/add" element={<Authenticate><AddPlatform/></Authenticate>}></Route>

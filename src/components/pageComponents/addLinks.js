@@ -14,7 +14,7 @@ function AddLinks({formSchema,setData}) {
         event.target.value = Boolean(event.target.checked);
         setData(buildCustomEvent(event.target.name,event.target.checked));
     }
-
+    console.log(formSchema);
     const modalStatus = useMemo(()=>openModal,[openModal])
 
     const setSelectedItems = (items)=>{
@@ -64,7 +64,7 @@ function AddLinks({formSchema,setData}) {
                 <TextField name={'cols'} onChange={setData} value={formSchema.cols} size={'md'} label={'number of cols'}/>
             </Grid>
             <Grid item sm={12} >
-                <TextField name={'colsMobile'} onChange={setData} value={formSchema.colsMobile || 2 } size={'md'} label={'number of cols'}/>
+                <TextField name={'colsMobile'} onChange={setData} value={formSchema.colsMobile } size={'md'} label={'number of cols on mobile'}/>
             </Grid>
             <Grid item sm={12} >
                 {

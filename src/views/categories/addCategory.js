@@ -17,6 +17,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import {buildCustomEvent} from "../../utils/utils";
 import modal from "../../components/HOC/modal";
 import ImageSelector from "../../components/imageSelector";
+import {useParams} from "react-router-dom";
 
 const ImageModal = modal(ImageSelector);
 function AddCategory(props) {
@@ -30,7 +31,7 @@ function AddCategory(props) {
         currentFiles:[],
         setSelection:setImage
     })
-
+    const {id} = useParams();
     const dispatch = useDispatch();
     const initialState ={
         name:"",
@@ -38,7 +39,7 @@ function AddCategory(props) {
             image:"",
             imagePreview:"",
             title:"",
-            tag:[],
+            tags:[],
             attributes:[],
             platforms:[],
     }
@@ -81,11 +82,25 @@ function AddCategory(props) {
             })
     },[setAttributes])
 
+    const getCategory = useCallback(()=>{
+        get(`${CATEGORYLISTURL}/${id}`)
+            .then(({data})=>{
+                const {status,category} = data;
+                if (status){
+                  const newCategory  = Object.assign(initialState,category);
+                  setFormField(newCategory);
+                }
+            }).catch(e=>{console.log(e)})
+    },[id])
 
     useEffect(()=>{
         getCategories();
         getPlatforms();
         getAttributes();
+        if (id){
+            getCategory();
+        }
+
         // return()=>{
         //     abortController.abort();
         // }
@@ -110,8 +125,8 @@ function AddCategory(props) {
     }
 
     function setTags({target}){
-        var tag = target.value.split(",");
-        setFormField(v=>({...v,tag}))
+        var tags = target.value.split(",");
+        setFormField(v=>({...v,tags}))
     }
 
     function handleSubmit(){
@@ -166,7 +181,7 @@ function AddCategory(props) {
                         <TextField name='title' value={formFields.title} label="title" onChange={setFieldData }/>
                         <Autocomplete
                             options={categories}
-                            value={categories.find( v => categories.id === formFields.parent)}
+                            value={categories.find( v => v.id === formFields.parent)}
                             getOptionLabel={options=>options.name}
                             onChange={setSelectedCategory}
                             renderInput={(params) => <TextField {...params} label="Parent Category" />}
@@ -204,7 +219,7 @@ function AddCategory(props) {
                             filterSelectedOptions
                             renderInput={(params) => <TextField {...params} label="Select Attributes" />}
                         />
-                        <TextField value={formFields.tag.join(',')}  name='tags' label="tags" onChange={setTags}/>
+                        <TextField value={formFields.tags.join(',')}  name='tags' label="tags" onChange={setTags}/>
                       <Button  variant={'contained'} onClick={()=>{selectImage('image',[formFields.image])}} >Select Image</Button>
                         <Card>
                             <img

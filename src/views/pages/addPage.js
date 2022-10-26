@@ -169,7 +169,7 @@ function AddPage(props) {
                             newContent.itemsPreview = content.items;
                             newContent.items = content.items.map(item=>item.id);
                             if(content.itemsType === 'products'){
-                                newContent.sku = content.items.map(item=><item className="">sku</item>);
+                                newContent.sku = content.items.map(item=>item.sku);
                             }
                             return newContent;
                         });

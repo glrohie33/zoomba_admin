@@ -104,7 +104,7 @@ function AddCategory(props) {
         // return()=>{
         //     abortController.abort();
         // }
-    },[getAttributes,getCategories,getPlatforms]);
+    },[getAttributes,getCategories,getPlatforms,getCategory,id]);
 
     function setFieldData(event){
         setFormField(v=>({...v,[event.target.name]:event.target.value}))

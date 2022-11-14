@@ -34,7 +34,7 @@ function AddCategory(props) {
     const {id} = useParams();
     const dispatch = useDispatch();
     const initialState ={
-        name:"",
+            name:"",
             parent:"",
             image:"",
             imagePreview:"",
@@ -131,13 +131,14 @@ function AddCategory(props) {
     function handleSubmit(){
         const data = {...formFields};
          data.image = formFields.image.id;
-        post(CATEGORYLISTURL,data,)
+         const categoryId = (id)?id:'';
+        post(`${CATEGORYLISTURL}/${categoryId}`,data,)
             .then(e=>{
                 const data = e.data;
                 if(data.status){
                     dispatch(addAlert({
                         name: AUTHALERTNAME,
-                        message:'Registration Successfull',
+                        message:(categoryId)?'Update Successful':'Category Created',
                         status:SUCCESSALERT
                     }));
                     setFormField(initialState)

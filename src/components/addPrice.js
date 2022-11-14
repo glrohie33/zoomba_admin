@@ -39,7 +39,7 @@ function AddPrice({formFields,setFormData}) {
     }
 
     const setVariations = ()=>{
-       const result = buildVariations({productPurchasePrice:0,salePrice:0,productQuantity:0,productVat:0},0,attributes,[]);
+       const result = buildVariations({purchasePrice:0,salesPrice:0,quantity:0,vat:0},0,attributes,[]);
         addVariations(result);
         addVariationToProduct(result);
     }
@@ -69,9 +69,9 @@ function AddPrice({formFields,setFormData}) {
                     <Grid container>
                         <Grid item sm={12}>
                             {
-                                Object.keys(formFields.productAttributes)
+                                Object.keys(formFields.attributes)
                                     .map((key,index)=>{
-                                        const value = formFields.productAttributes[key];
+                                        const value = formFields.attributes[key];
                                         return <FormControlLabel control={
                                             <Checkbox value={value} name={key} onChange={setSelectedAttributes} />
                                         } label={key} key={index}/>
@@ -93,16 +93,16 @@ function AddPrice({formFields,setFormData}) {
                                     <Paper elevation={2} className={'price-container'}>
                                         <Grid container spacing={2}>
                                             <Grid className={'flex flex-center'} item={3}>
-                                                <TextField value={formFields.productPurchasePrice} onChange={setFormData} className={'price-items'} name={'productPurchasePrice'} label={'price'}/>
+                                                <TextField value={formFields.purchasePrice} onChange={setFormData} className={'price-items'} name={'purchasePrice'} label={'price'}/>
                                             </Grid>
                                             <Grid className={'flex flex-center'} item={3}>
-                                                <TextField value={formFields.salePrice} onChange={setFormData} className={'price-items'} name={'salePrice'} label={'Sale Price'}/>
+                                                <TextField value={formFields.salePrice} onChange={setFormData} className={'price-items'} name={'salesPrice'} label={'Sale Price'}/>
                                             </Grid>
                                             <Grid className={'flex flex-center'} item={3}>
-                                                <TextField value={formFields.productQuantity}  className={'price-items'} onChange={setFormData} name={'productQuantity'} label={'Quantity'}/>
+                                                <TextField value={formFields.quantity}  className={'price-items'} onChange={setFormData} name={'quantity'} label={'Quantity'}/>
                                             </Grid>
                                             <Grid className={'flex flex-center'} item={3}>
-                                                <TextField value={formFields.productVat}  className={'price-items'} onChange={setFormData} name={'productVat'} label={'VAT'}/>
+                                                <TextField value={formFields.vat}  className={'price-items'} onChange={setFormData} name={'vat'} label={'VAT'}/>
                                             </Grid>
                                         </Grid>
                                     </Paper>
@@ -126,16 +126,16 @@ function AddPrice({formFields,setFormData}) {
 
                                                        </Grid>
                                                        <Grid item className={'flex flex-center'} sm={2}>
-                                                           <TextField className={'price-items'} onChange={(event)=>{setVariationData(event,index)}} value={variations[index]['productPurchasePrice']} name={'productPurchasePrice'} label={'price'}/>
+                                                           <TextField className={'price-items'} onChange={(event)=>{setVariationData(event,index)}} value={variations[index]['purchasePrice']} name={'purchasePrice'} label={'price'}/>
                                                        </Grid>
                                                        <Grid item className={'flex flex-center'} sm={2}>
-                                                           <TextField className={'price-items'} onChange={(event)=>{setVariationData(event,index)}} value={variations[index]['salePrice']} name={'salePrice'} label={'Sale Price'}/>
+                                                           <TextField className={'price-items'} onChange={(event)=>{setVariationData(event,index)}} value={variations[index]['salesPrice']} name={'salesPrice'} label={'Sale Price'}/>
                                                        </Grid>
                                                        <Grid item className={'flex flex-center'} sm={2}>
-                                                           <TextField className={'price-items'} onChange={(event)=>{setVariationData(event,index)}} value={variations[index]['productQuantity']} name={'productQuantity'} label={'Quantity'}/>
+                                                           <TextField className={'price-items'} onChange={(event)=>{setVariationData(event,index)}} value={variations[index]['quantity']} name={'quantity'} label={'Quantity'}/>
                                                        </Grid>
                                                        <Grid className={'flex flex-center'} item={3}>
-                                                           <TextField className={'price-items'} onChange={(event)=>{setVariationData(event,index)}} value={variations[index]['productVat']} name={'productVat'} label={'VAT'}/>
+                                                           <TextField className={'price-items'} onChange={(event)=>{setVariationData(event,index)}} value={variations[index]['vat']} name={'vat'} label={'VAT'}/>
                                                        </Grid>
                                                        <Grid className={'flex flex-center'} item sm={2}>
                                                            <Button className={'price-items'} variant={'contained'}><Delete onClick={()=>removeVariant(index)}></Delete></Button>

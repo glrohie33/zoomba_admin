@@ -37,7 +37,7 @@ function ProductImages({ formFields,setFormData}) {
                     images.map((image,index)=>(
                         <Grid item sm={4} key={index} >
                             <label className={'product-images-label'}>
-                                <img src={image.preview||DEFAULTIMAGE} alt={ `product ${index}`} style={{height:'300px',objectFit:'contain'}}/>
+                                <img src={image.preview||DEFAULTIMAGE} alt={ `product ${index}`} style={{height:'300px',width:'100%',objectFit:'contain'}}/>
                                 <input type='file' name={`file${index}`}  onChange={(event)=>{setUploadedFile(event,index)}} />
                             </label>
                         </Grid>

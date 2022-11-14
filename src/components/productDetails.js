@@ -37,7 +37,7 @@ function ProductDetails({ formFields,setFormData}) {
         const {name,value} = target;
         const newSelectedAttributes = {...selectedAttributes,[name]:value.split(',')}
         setSelectedAttributes(newSelectedAttributes);
-        setFormData(buildCustomEvent('productAttributes',newSelectedAttributes));
+        setFormData(buildCustomEvent('attributes',newSelectedAttributes));
     }
 
 
@@ -87,9 +87,7 @@ function ProductDetails({ formFields,setFormData}) {
                     </FormControl>
                     <FormControl fullWidth >
                         <InputLabel id="brand-label">Select Brand</InputLabel>
-                        {
-                            console.log(formFields.brand)
-                        }
+
                         <Select
                             labelId={"brand-label"}
                             label="Entity"
@@ -109,7 +107,7 @@ function ProductDetails({ formFields,setFormData}) {
                             }
                         </Select>
                     </FormControl>
-                    <TextField value={formFields.productWeight} name={'productWeight'} label={'weight'} onChange={setFormData}/>
+                    <TextField value={formFields.weight} name={'weight'} label={'weight'} onChange={setFormData}/>
                     <TextField value={formFields.modelNumber} name={'modelNumber'} label={'model number'} onChange={setFormData}/>
                     <TextField value={formFields.sku} name={'sku'} label={'sku'} onChange={setFormData}/>
                     <TextField value={formFields.unit} name={'unit'} label={'unit'} onChange={setFormData}/>
@@ -118,7 +116,7 @@ function ProductDetails({ formFields,setFormData}) {
                     <TextField multiline  rows={4} name="tags" label={'tags'} value={formFields.tags} onChange={setFormData} />
                     {
                         attributes.map(attribute=>(
-                            <TextField key={attribute.id} value={formFields.productAttributes[attribute.name]?.join(",")||""} name={attribute.name} label={ attribute.name} onChange={setAttributesFields} />
+                            <TextField key={attribute.id} value={formFields.attributes[attribute.name]?.join(",")||""} name={attribute.name} label={ attribute.name} onChange={setAttributesFields} />
                         ))
                     }
                 </Grid>

@@ -22,18 +22,18 @@ function AddProduct(props) {
         categories:[],
         brand:"",
         description:"",
-        productAttributes:{
+        attributes:{
         },
-        productWeight:0,
+        weight:0,
         store:"",
-        productPurchasePrice:"",
+        purchasePrice:"",
         sku:"",
         modelNumber:"",
         unit:"",
-        salePrice:"",
-        productQuantity:"",
+        salesPrice:"",
+        quantity:"",
         features:"",
-        productVariations:[],
+        variations:[],
         tags:""
     }
     const [formFields,setFormFields] = useState(initialState);
@@ -66,7 +66,7 @@ function AddProduct(props) {
                 sku:['required'],
                 modelNumber:['required'],
                 brand:['required'],
-                productWeight:['required','isNumber','min:1'],
+                weight:['required','isNumber','min:1'],
                 descriptions:['required'],
                 features:['required'],
                 store:['required'],
@@ -95,16 +95,16 @@ function AddProduct(props) {
             label:'Add Prices',
             component:<AddPrice formFields={formFields} setFormData={setFormData}/>,
             validations: (formFields,resp)=>{
-                const {productPurchasePrice,productVariations} = formFields;
-                if(productVariations.length > 0){
-                        productVariations.forEach((variation, index)=>{
+                const {purchasePrice,variations} = formFields;
+                if(variations.length > 0){
+                        variations.forEach((variation, index)=>{
                             if(variation.productPurchasePrice === 0){
                              resp.status = false;
                              resp.errors.push(`please enter purchase price for variation number ${index+1}  for all variations or delete them`);
                             }
                         })
                 }else{
-                    if(productPurchasePrice === 0){
+                    if(purchasePrice === 0){
                         resp.status = false;
                         resp.errors.push('Please enter purchase price');
                     }
@@ -121,7 +121,6 @@ function AddProduct(props) {
             errors:[]
         }
         if('validations' in currentStep){
-            console.log('in here');
             resp = validate(formFields,currentStep.validations)
         }
 
@@ -178,8 +177,8 @@ function AddProduct(props) {
 
     const uploadProduct = ()=>{
         const form = {...formFields};
-        form.productAttributes = JSON.stringify(formFields.productAttributes);
-        form.productVariations = JSON.stringify(formFields.productVariations);
+        form.attributes = JSON.stringify(formFields.attributes);
+        form.variations = JSON.stringify(formFields.variations);
         form.deletedImages = [];
         const productImages = formFields.productImages || [];
         productImages.forEach(img=>{
@@ -220,38 +219,25 @@ function AddProduct(props) {
             get(`${PRODUCTURL}/${id}`).then(resp=>{
                 const {status,product} = resp.data;
                 if (status){
-                    const {productImages,vat,weight,categories,brand,purchasePrice,quantity,variations,tags,mainImage} = product;
+                    const {productImages,categories,brand,tags,mainImage} = product;
                     product.images = imagesInit;
-                    productImages.forEach((img,index)=>{
-                             if (img.url  === mainImage){
-                                 product.images.unshift(img.url);
-                                 product.images.pop();
-                             }else{
-                                product.images[index] = img.url;
-                             }
+                    productImages.forEach(({url},index)=>{
+                        if(!product.images.includes(url)){
+                            if (url  === mainImage){
+                                product.images.unshift(url);
+                                product.images.pop();
+                            }else{
+                                product.images[index] = url;
+                            }
+                        }
                     });
                     product.categories = categories.map(cat=>cat.id);
                     product.brand = brand.id;
-                    product.productPurchasePrice = purchasePrice;
-                    product.productQuantity = quantity;
-                    product.productVariations = variations;
                     product.categories = categories.map(category=>category.id);
-                    product.tags = tags.join('');
-                    product.productWeight = weight;
-                    product.productVat = vat;
-
-                    delete product.purchasePrice;
+                    product.tags = tags.join(',');
                     delete product.price;
-                    delete product.weight;
-                    delete product.quantity;
-                    delete product.discount;
-                    delete product.attributes;
-                    delete product.vat;
-                    delete product.variations;
-
                     setFormFields(v=>{
                         const newForms = Object.assign(v,product);
-                        console.log(newForms);
                         return newForms;
                     });
                 }

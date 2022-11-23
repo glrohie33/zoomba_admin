@@ -1,8 +1,9 @@
-import React, {useCallback, useEffect, useState, Fragment, memo, useRef} from 'react';
+import React, {useCallback, useEffect, useState, Fragment, memo} from 'react';
 import {get} from "../actions/auth";
 import {CATEGORYLISTURL} from "../utils/texthelper";
 import {Card, Grid, Paper} from "@mui/material";
 import {buildCustomEvent} from "../utils/utils";
+import {useParams} from "react-router-dom";
 
 
 
@@ -10,51 +11,63 @@ function SelectCategory({ formFields,setFormData}) {
 
     const [data,setData] = useState([ ]);
     const [currentCategory,setCurrentCategory] = useState("");
-    const selectedCategories = useRef(formFields.categories);
-    const platform = useRef("");
+    const [selectedCategories,setSelectedCategories] = useState(formFields.categories);
+    const {id} = useParams();
     const loadIncomingCategories = useCallback(()=>{
         if (!currentCategory) {
-            selectedCategories.current.forEach(category => {
+            selectedCategories.forEach(category => {
                 setCurrentCategory(category);
             });
         }
-    },[currentCategory,setCurrentCategory])
+    },[currentCategory,setCurrentCategory,selectedCategories])
+
 
     const getCategories =useCallback(()=>{
+
         get(`${CATEGORYLISTURL}?parent=${currentCategory}&children=true`,{
             headers: {platform:formFields.platform}
         }).then((resp)=>{
             const {status,categories}= resp.data;
             if(status){
-                if(categories.length > 0){
-                    // const newData = [...data,categories];
-                    setData(data =>{
-                        const newData = [...data,categories];
-                        sessionStorage.setItem('loadedCategories',JSON.stringify(newData))
-                      return newData;
-                    } );
 
+
+                const newData = [...data];
+                if(categories.length > 0){
+                    newData.push(categories);
+                    sessionStorage.setItem('loadedCategories',JSON.stringify(newData));
                 }
+
+                setData(newData);
             }
-                loadIncomingCategories();
+
+                //if we are editing and current category is emtpy;
+                if(id && !currentCategory){
+                    loadIncomingCategories();
+                }
+
         }).catch(e=>{
 
         });
-    },[currentCategory,formFields,loadIncomingCategories]);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[currentCategory,id,formFields,loadIncomingCategories]);
 
     const categorySelected = (event,index)=>{
         const value = event.target.value;
         if(!isSelected(value)){
-            const newArray = [...selectedCategories.current];
+            const newArray = [...selectedCategories];
             const newData = [...data];
-            if(selectedCategories.current.length > 0 ){
+            console.log(newData);
+            if(selectedCategories.length > 0 ){
                 newArray.splice(index);
                 newData.splice(index+1);
             }
+            console.log(newData);
             newArray.push(value);
-            selectedCategories.current = newArray;
+            setSelectedCategories(newArray);
             setData(newData);
             setCurrentCategory(value);
+            getCategories(value);
             setFormData(buildCustomEvent('categories',newArray));
         }
 
@@ -66,9 +79,15 @@ function SelectCategory({ formFields,setFormData}) {
         const initialData = JSON.parse(sessionStorage.getItem('loadedCategories')) || [];
         if (previousPlatform !== formFields.platform || !initialData.length ){
             sessionStorage.setItem('productPlatform',formFields.platform)
+
             getCategories();
         }else{
-            setData(initialData);
+            if(currentCategory){
+                getCategories();
+            }else{
+                setData(initialData);
+            }
+
         }
     },[currentCategory,formFields.platform,getCategories,setData])
 
@@ -87,7 +106,6 @@ function SelectCategory({ formFields,setFormData}) {
             <Grid container>
                 <Grid item sm={12}>
                     <div className={'category-list-container'}>
-                        {platform.current}
                         {
                             data.map((v,index)=>(
                                 <Card key={index} className={`category-list-cover category-list-cover${index}`}>

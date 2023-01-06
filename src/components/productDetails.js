@@ -12,7 +12,7 @@ function ProductDetails({ formFields,setFormData}) {
     const [selectedAttributes,setSelectedAttributes] = useState({})
 
     const getBrands = ()=>{
-        get(BRANDLISTURL).then((resp)=>{
+        get(BRANDLISTURL+"?all=true").then((resp)=>{
             const {status,brands}= resp.data;
             if(status){
                 setBrands(brands);

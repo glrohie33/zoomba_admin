@@ -17,7 +17,12 @@ function AddPayment(props) {
         name:'',
         key:'',
         downPercent:'',
-        interestRate:''
+        interestRate:'',
+        email:'',
+        firstname:'',
+        lastname:'',
+        password:'',
+        confirmPassword: ''
     };
     const [formFields,setFormField] = useState(initialState);
 
@@ -69,6 +74,21 @@ function AddPayment(props) {
                                 </Grid>
                                 <Grid item sm={6}>
                                     <TextField value={formFields.interestRate} name='interestRate' label="Interest Rate" onChange={setFieldData }/>
+                                </Grid>
+                                <Grid item sm={12}>
+                                    <TextField value={formFields.email} name='email' label="Admin Email" onChange={setFieldData }/>
+                                </Grid>
+                                <Grid item sm={6}>
+                                    <TextField value={formFields.firstname} name='firstname' label="Admin First Name" onChange={setFieldData }/>
+                                </Grid>
+                                <Grid item sm={6}>
+                                    <TextField value={formFields.lastname} name='lastname' label="Admin Last Name" onChange={setFieldData }/>
+                                </Grid>
+                                <Grid item sm={6}>
+                                    <TextField value={formFields.password} name='password' label="Admin Password" onChange={setFieldData }/>
+                                </Grid>
+                                <Grid item sm={6}>
+                                    <TextField value={formFields.confirmPassword} name='confirmPassword' label="Confirm Password" onChange={setFieldData }/>
                                 </Grid>
                             </Grid>
                             <Button onClick={handleSubmit} style={{display:'block',width:'100%',margin: '10px 0px'}} variant="contained" size="large">Add Option</Button>

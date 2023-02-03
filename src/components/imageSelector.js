@@ -10,7 +10,7 @@ function ImageSelector({inFileType='image',currentFiles=[],closeModal,setSelecti
     const [uploadedFiles,setUploadedFiles] = useState([]);
     const [selectedFiles,setSelectedFiles] = useState(currentFiles);
     const [currentPage,setCurrentPage] = useState(1);
-    const currentImagesId = useMemo(()=>currentFiles.map(file=>(file.id)),[currentFiles]) ;
+    const currentImagesId = useMemo(()=>currentFiles.map(file=>(file?.id)),[currentFiles]) ;
     let loadingStatus = useRef(false);
     let loaded = useRef(false);
     let loadEnd = useRef(true);

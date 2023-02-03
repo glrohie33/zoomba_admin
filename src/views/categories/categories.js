@@ -28,7 +28,7 @@ function Categories(props) {
             field:'attributes',
             headerName: 'Attributes',
             valueFormatter:({value})=>{
-                return value.map(v=>v.name)
+                return value?.map(v=>v.name) || []
 
         },
             flex:1

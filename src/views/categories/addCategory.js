@@ -130,7 +130,7 @@ function AddCategory(props) {
 
     function handleSubmit(){
         const data = {...formFields};
-         data.image = formFields.image.id;
+         data.image = formFields?.image?.id;
          const categoryId = (id)?id:'';
         post(`${CATEGORYLISTURL}/${categoryId}`,data,)
             .then(e=>{
@@ -189,7 +189,7 @@ function AddCategory(props) {
                         <Autocomplete
                         multiple
                         options={platforms}
-                        defaultValue={[]}
+                        defaultValue={platforms.filter(v=>formFields.platforms.includes(v.key))}
                         value={platforms.filter(v=>formFields.platforms.includes(v.key))}
                         getOptionLabel={options=>options.name}
 
@@ -220,7 +220,10 @@ function AddCategory(props) {
                             renderInput={(params) => <TextField {...params} label="Select Attributes" />}
                         />
                         <TextField value={formFields.tags.join(',')}  name='tags' label="tags" onChange={setTags}/>
-                      <Button  variant={'contained'} onClick={()=>{selectImage('image',[formFields.image])}} >Select Image</Button>
+                      <Button  variant={'contained'} onClick={()=>{
+
+                          selectImage('image',(formFields.image?[formFields.image]:[]))
+                      }} >Select Image</Button>
                         <Card>
                             <img
                                 style={{height:143,objectFit:'contain'}}

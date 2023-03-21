@@ -1,6 +1,6 @@
 import React, {Fragment, useEffect, useState} from 'react';
 import {DataGrid, GridActionsCellItem} from "@mui/x-data-grid";
-import {get, patch} from "../../actions/auth";
+import {get, patch, post} from "../../actions/auth";
 import {AUTHALERTNAME, CATEGORYLISTURL, ERRORALERT, SUCCESSALERT} from "../../utils/texthelper";
 import {Button, Grid, Switch} from "@mui/material";
 import {Link, useNavigate} from "react-router-dom";
@@ -74,7 +74,7 @@ function Categories(props) {
            item.topCategory  = event.target.checked;
            const itemIndex = data.findIndex(data=>data.id === id);
            if(itemIndex > -1){
-               patch(`${CATEGORYLISTURL}/${id}`,item).then(({data})=>{
+               post(`${CATEGORYLISTURL}/${id}`,item).then(({data})=>{
                    const {status} = data;
                    if(status){
                        dispatch(addAlert({

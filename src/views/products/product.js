@@ -29,7 +29,7 @@ function Product(props) {
             headerName:'Brand',
             flex: 1,
             valueFormatter:({value})=> {
-                return value.name;
+                return value?.name || '';
             }
         },
         {
